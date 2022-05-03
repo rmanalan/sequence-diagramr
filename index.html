@@ -85,7 +85,7 @@ function getParameterByName(name) {
     results = regex.exec(url);
   if (!results) return null;
   if (!results[2]) return '';
-  return decodeURIComponent(results[2]).replace(/@@@@@/gm, "\n");
+  return atob(results[2]).replace(/@@@@@/gm, "\n");
 }
 $(function () {
   var out = getParameterByName('out');
@@ -96,7 +96,7 @@ $(function () {
         margin: '5px',
         backgroundColor: 'transparent'
     })
-    var edit = '?t=' + encodeURIComponent(out.replace(/\n/gm, '@@@@@'));
+    var edit = '?t=' + atob(out.replace(/\n/gm, '@@@@@'));
     $('#edit').click(function (evt) {
       window.location = edit;
       return false;
@@ -137,7 +137,7 @@ $(function () {
     });
 
     $('#export').click(function (evt) {
-      window.location = '/?out=' + encodeURIComponent(diagramTxt.val().replace(/\n/gm, '@@@@@'));
+      window.location = '/?out=' + btoa(diagramTxt.val().replace(/\n/gm, '@@@@@'));
       return false;
     });
   }
