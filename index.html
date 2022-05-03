@@ -96,12 +96,12 @@ $(function () {
         margin: '5px',
         backgroundColor: 'transparent'
     })
-    var edit = '?t=' + atob(out.replace(/\n/gm, '@@@@@'));
+    var edit = '?t=' + atob(out);
     $('#edit').click(function (evt) {
       window.location = edit;
       return false;
     });
-    var d = Diagram.parse(out);
+    var d = Diagram.parse(atob(out));
     d.drawSVG('diagram', { theme: 'simple' });
   } else {
     $('#edit').css('display','none')
@@ -137,7 +137,7 @@ $(function () {
     });
 
     $('#export').click(function (evt) {
-      window.location = '/?out=' + btoa(diagramTxt.val().replace(/\n/gm, '@@@@@'));
+      window.location = '/?out=' + btoa(diagramTxt.val());
       return false;
     });
   }
