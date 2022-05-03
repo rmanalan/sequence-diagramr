@@ -82,6 +82,7 @@ function getParameterByName(name) {
 }
 $(function () {
   var share = getParameterByName('share');
+  setTimeout(function() {$('textarea').height(document.querySelector('textarea').scrollHeight)});
   if (share) {
     $('html').removeClass('bg-gray-900');
     $('footer').removeClass('text-white')
