@@ -1,0 +1,136 @@
+<html>
+  <head>
+    <title>Sequence Diagramr</title>
+    <style>
+      #diagram {
+        zoom: .8
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2 class="hideable">
+        <a href="https://codepen.io/rmanalan/full/YGXXXX/">Sequence Diagramr</a>
+      </h2>
+      <p class="hideable">A simple sequence diagram generator</p>
+      <textarea
+        class="hideable"
+        id="diagram-txt"
+        cols="40"
+        rows="6"
+        style="width:100%;font-family:SourceCodeProRegular, Menlo, Monaco, consolas, monospace;font-size:14px;"
+      >
+Title: Here is a title
+A->B: Normal line
+B-->C: Dashed line
+C->>D: Open arrow
+D-->>A: Dashed open arrow</textarea
+      >
+      <div class="accordion-group hideable">
+        <div class="accordion-heading">
+          <a
+            class="accordion-toggle"
+            data-toggle="collapse"
+            href="#collapseOne"
+          >
+            Legend
+          </a>
+          <div id="legend" class="hidden" style="margin:10px;">
+            <img
+              src="https://bramp.github.io/js-sequence-diagrams/images/grammar.png"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div id="diagram"></div>
+      <div class="hideable">
+        <a id="export" href="#"
+          ><i class="fa fa-share-square-o" aria-hidden="true"></i> Share</a
+        >
+      </div>
+      <footer>
+        <small
+          ><a href="https://codepen.io/rmanalan/full/YGXXXX/"
+            >Sequence Diagramr</a
+          >
+          was scraped together in anger by
+          <a href="https://twitter.com/rmanalan">@rmanalan</a> using
+          <a href="https://bramp.github.io/js-sequence-diagrams/"
+            >js-sequence-diagrams</a
+          >. Please use and abuse.
+          <a id="edit" href="#"
+            ><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a
+          ></small
+        >
+      </footer>
+    </div>
+    <script type="text/javascript">
+function getParameterByName(name) {
+  var url = window.location.href;
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2]).replace(/@@@@@/gm, "\n");
+}
+$(function () {
+  var out = getParameterByName('out');
+  if (out) {
+    $('.hideable').css('display','none');
+    $('.container').css({
+        width: '100%',
+        margin: '5px',
+        backgroundColor: 'transparent'
+    })
+    var edit = '?t=' + encodeURIComponent(out.replace(/\n/gm, '@@@@@'));
+    $('#edit').click(function (evt) {
+      window.location = edit;
+      return false;
+    });
+    var d = Diagram.parse(out);
+    d.drawSVG('diagram', { theme: 'simple' });
+  } else {
+    $('#edit').css('display','none')
+    $('.accordion-inner').html($('#legend').html());
+
+    var qp = getParameterByName('t')
+    if (qp) {
+      $('#diagram-txt').val(qp);
+    } else {
+      if (localStorage.getItem('sequenceVal')) {
+        $('#diagram-txt').val(localStorage.sequenceVal);
+      }
+    }
+
+    var d = Diagram.parse($('#diagram-txt').val());
+    d.drawSVG('diagram', { theme: 'simple' });
+
+    var diagramTxt = $('#diagram-txt').on('keyup', function () {
+      var $self = $(this);
+      var d = Diagram.parse($self.val());
+      $('#diagram').html('');
+      d.drawSVG('diagram', { theme: 'simple' });
+      localStorage.setItem('sequenceVal', $self.val());
+    });
+
+    $('a.accordion-toggle').on('click', function () {
+      var $legend = $('#legend');
+      if ($legend.hasClass('hidden')) {
+        $legend.removeClass('hidden');
+      } else {
+        $legend.addClass('hidden');
+      }
+    });
+
+    $('#export').click(function (evt) {
+      window.location = 'https://output.jsbin.com/ebahuh?out=' + encodeURIComponent(diagramTxt.val().replace(/\n/gm, '@@@@@'));
+      return false;
+    });
+  }
+});
+    </script>
+  </body>
+</html>
