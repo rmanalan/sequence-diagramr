@@ -22,7 +22,7 @@
   <body>
     <div class="container">
       <h2 class="hideable">
-        <a href="https://codepen.io/rmanalan/full/YGXXXX/">Sequence Diagramr</a>
+        <a href="/">Sequence Diagramr</a>
       </h2>
       <p class="hideable">A simple sequence diagram generator</p>
       <textarea
@@ -63,7 +63,7 @@ D-->>A: Dashed open arrow</textarea
       </div>
       <footer>
         <small
-          ><a href="https://codepen.io/rmanalan/full/YGXXXX/"
+          ><a href="/"
             >Sequence Diagramr</a
           >
           was scraped together in anger by
@@ -137,7 +137,7 @@ $(function () {
     });
 
     $('#export').click(function (evt) {
-      window.location = 'https://output.jsbin.com/ebahuh?out=' + encodeURIComponent(diagramTxt.val().replace(/\n/gm, '@@@@@'));
+      window.location = '/?out=' + encodeURIComponent(diagramTxt.val().replace(/\n/gm, '@@@@@'));
       return false;
     });
   }
